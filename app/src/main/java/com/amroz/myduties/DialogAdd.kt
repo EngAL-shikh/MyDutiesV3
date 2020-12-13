@@ -9,7 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.costumdialog.*
-import kotlinx.android.synthetic.main.done_list.*
+
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -38,11 +38,13 @@ class MainActivity : AppCompatActivity() {
             override fun createFragment(position: Int): Fragment {
                 return  when(position){
 
-                    0->toDO.newInstance()
-                    1->InProgress.newInstance()
-                    2->Done.newInstance()
+                    0->toDO.newInstance("todo")
+                    1->toDO.newInstance("inprogress")
+                    2->toDO.newInstance("done")
+//                    1->InProgress.newInstance()
+//                    2->Done.newInstance()
 
-                    else ->InProgress.newInstance()
+                    else->toDO.newInstance("todo")
                 }
             }
 

@@ -37,11 +37,12 @@ class TaskRepository private constructor(context: Context){
         }
     }
 
-    // select  all student
+    // select  all tasks
 
-    fun getTasks(): LiveData<List<Tasks>> = taskDao.getTask()
-    fun getTaskInProgress(): LiveData<List<Tasks>> = taskDao.getTaskInProgress()
-    fun getTaskDone(): LiveData<List<Tasks>> = taskDao.getTaskDone()
+    fun getTasksTOdo(): LiveData<List<Tasks>> = taskDao.getTask(1)
+    fun getTasksInProgress(): LiveData<List<Tasks>> = taskDao.getTask(2)
+    fun getTasksDone(): LiveData<List<Tasks>> = taskDao.getTask(3)
+
 
 
 

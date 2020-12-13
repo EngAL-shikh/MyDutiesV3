@@ -5,7 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    >
 
 
     <EditText
@@ -13,13 +14,13 @@
         android:hint="Task title"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp" />
     <EditText
         android:id="@+id/ed_det"
         android:hint="details"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="40dp" />
 
 
 
@@ -34,9 +35,12 @@
         android:gravity="center"/>
     <Button
         android:id="@+id/ed_date"
+        android:layout_marginTop="5dp"
         android:hint="Enter number"
         android:text="Task End in"
         android:inputType="number"
+        android:textColor="#ffff"
+        android:background="@drawable/stylebutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

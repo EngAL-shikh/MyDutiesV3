@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,20 +32,12 @@ class toDO : Fragment(),DialogAdd.Callbacks {
 
 
 
-
-var list= listOf<Tasks>()
     val sdf = SimpleDateFormat("EEE, MMM d, ''yy")
     val currentDate = sdf.format(Date())
-
-
-
     lateinit var add: Button
     lateinit var toprogress: Button
     private lateinit var toDoRecyclerView: RecyclerView
     private var adapter: TaskAdapter? = TaskAdapter(emptyList())
-
-
-
     private val taskViewModel by lazy {
         ViewModelProviders.of(this).get(TaskViewModel::class.java)
     }
@@ -52,7 +45,11 @@ var list= listOf<Tasks>()
 
 
 
-
+    var type:String=""
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        type=arguments?.getSerializable("type")as String
+    }
 
 
 
@@ -62,7 +59,9 @@ var list= listOf<Tasks>()
     ): View? {
 
         var view =inflater.inflate(R.layout.fragment_to_do, container, false)
-        add=view.findViewById(R.id.add)
+        add=view.findViewById(R.id.adding)
+
+
 
 
 
@@ -89,26 +88,63 @@ var list= listOf<Tasks>()
         return view
 
     }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        taskViewModel.taskListLiveData .observe(
-            viewLifecycleOwner,
-            Observer { tasks ->
-                tasks?.let {
 
-                     Log.d("amroz",tasks.size.toString())
-                      updateUI(tasks)
+        if (type=="todo"){
 
-                }
-            })
+            taskViewModel.taskListLiveData .observe(
+                viewLifecycleOwner,
+                Observer { tasks ->
+                    tasks?.let {
+
+                        Log.d("amroz",tasks.size.toString())
+                        updateUI(tasks)
+
+                    }
+                })
+        }else if(type=="done"){
+
+            taskViewModel.taskListLiveDataDone .observe(
+                viewLifecycleOwner,
+                Observer { tasks ->
+                    tasks?.let {
+
+                        Log.d("amroz",tasks.size.toString())
+                        updateUI(tasks)
+
+                    }
+                })
+
+        }else{
+
+            taskViewModel.taskListLiveDatainprogress .observe(
+                viewLifecycleOwner,
+                Observer { tasks ->
+                    tasks?.let {
+
+                        Log.d("amroz",tasks.size.toString())
+
+                        updateUI(tasks)
+
+
+                    }
+                })
+
+        }
+
     }
     private inner class TaskHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = itemView.findViewById(R.id.title)
         val det: TextView = itemView.findViewById(R.id.det)
         val date: TextView = itemView.findViewById(R.id.date)
        // val level: TextView = itemView.findViewById(R.id.level)
-        val nextTodo: ImageView = itemView.findViewById(R.id.next)
+        val next: ImageView = itemView.findViewById(R.id.next)
         val linearTodo: LinearLayout = itemView.findViewById(R.id.linear_todo)
+        val back: ImageView = itemView.findViewById(R.id.back)
+        val card: CardView = itemView.findViewById(R.id.card)
 
 
 
@@ -117,14 +153,12 @@ var list= listOf<Tasks>()
 
         private lateinit var tasks: Tasks
         fun bind(item: Tasks) {
-
             this.tasks = item
             var databaseDate=sdf.format(tasks.date)
             title.text = this.tasks.title
             det.text = this.tasks.det
             date.text ="the task end in : " +databaseDate
             Log.d("h",databaseDate.toString())
-
          // get diffrent between tasks days
 
             var date1=currentDate
@@ -154,28 +188,101 @@ var list= listOf<Tasks>()
         init {
 
 
-//            if (sdf.format(tasks.date)==currentDate){
-//
-//                linearTodo.setBackgroundResource(R.color.colorAccent)
-//
-//
-//            }
 
 
-            nextTodo.setOnClickListener {
-                val builder=AlertDialog.Builder(requireContext())
-                builder.setPositiveButton("yes"){_,_->
+            // controling the tow button
 
-                    taskViewModel.updateTaskToInprogress(tasks,2)
+            if (type=="todo"){
+               adding.visibility=View.VISIBLE
+                back.visibility=View.GONE
+            }else if (type=="done"){
+                next.visibility=View.GONE
+                linearTodo.setBackgroundResource(R.color.green)
+
+
+
+            }else if (type=="inprogress"){
+
+                back.visibility=View.VISIBLE
+                next.visibility=View.VISIBLE
+
+            }
+
+
+
+
+            back.setOnClickListener {
+
+                if (type=="inprogress"){
+                    val builder= AlertDialog.Builder(requireContext())
+                    builder.setPositiveButton("yes"){_,_->
+
+                        taskViewModel.updateTaskToInprogress(tasks,1)
+                    }
+
+                    builder.setNegativeButton("no"){_,_->
+
+
+                    }
+                    builder.setTitle("Transfer ${tasks.title}")
+                    builder.setMessage("Are you sure")
+                    builder.create().show()
+
+                }else{
+                    val builder=AlertDialog.Builder(requireContext())
+                    builder.setPositiveButton("yes"){_,_->
+
+                        taskViewModel.updateTaskToInprogress(tasks,2)
+                    }
+
+                    builder.setNegativeButton("no"){_,_->
+
+
+                    }
+                    builder.setTitle("Transfer ${tasks.title}")
+                    builder.setMessage("Are you sure")
+                    builder.create().show()
+
                 }
 
-                builder.setNegativeButton("no"){_,_->
+
+            }
+
+            next.setOnClickListener {
 
 
+                if (type=="todo"){
+                    val builder=AlertDialog.Builder(requireContext())
+                    builder.setPositiveButton("yes"){_,_->
+
+                        taskViewModel.updateTaskToInprogress(tasks,2)
+                    }
+
+                    builder.setNegativeButton("no"){_,_->
+
+
+                    }
+                    builder.setTitle("Transfer ${tasks.title}")
+                    builder.setMessage("Are you sure")
+                    builder.create().show()
+                }else{
+
+                    val builder=AlertDialog.Builder(requireContext())
+                    builder.setPositiveButton("yes"){_,_->
+
+                        taskViewModel.updateTaskToInprogress(tasks,3)
+
+                    }
+
+                    builder.setNegativeButton("no"){_,_->
+
+
+                    }
+                    builder.setTitle("Transfer ${tasks.title}")
+                    builder.setMessage("Are you sure")
+                    builder.create().show()
                 }
-                builder.setTitle("Transfer ${tasks.title}")
-                builder.setMessage("Are you sure")
-                builder.create().show()
+
 
             }
 
@@ -236,12 +343,15 @@ var list= listOf<Tasks>()
 
 
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-            toDO()
-
+    companion object{
+        fun newInstance(data:String):toDO{
+            val args=Bundle().apply {
+                putSerializable("type",data)
+            }
+            return  toDO().apply {
+                arguments=args
+            }
+        }
     }
 
     override fun addnewtask(tasks: Tasks) {

@@ -7,38 +7,40 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="123dp"
-        android:elevation="12dp"
-        app:cardCornerRadius="8dp"
         android:layout_margin="5dp"
-        >
+        android:elevation="12dp"
+        app:cardCornerRadius="8dp">
+
         <LinearLayout
-           android:id="@+id/linear_todo"
-            android:orientation="vertical"
+            android:id="@+id/linear_todo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
             <TextView
                 android:id="@+id/title"
-                android:text="title"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
+                android:layout_weight="1"
                 android:gravity="center"
 
-                android:layout_weight="1">
+                android:text="title">
 
             </TextView>
+
             <TextView
                 android:id="@+id/det"
-                android:text="detils"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
-                android:gravity="center"
-
                 android:layout_marginTop="2dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+
+                android:gravity="center"
+                android:text="detils">
 
             </TextView>
 
@@ -46,9 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                >
-
+                android:orientation="horizontal">
 
 
                 <ImageView
@@ -57,10 +57,27 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:src="@drawable/next"
                     android:background="@drawable/stylebutton"
                     android:gravity="center"
+                    android:src="@drawable/next"
                     android:text="in progress"
+                    android:textColor="#ffff"
+                    android:textSize="10sp"
+                    android:textStyle="normal">
+
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/back"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/stylebutton"
+                    android:gravity="center"
+                    android:src="@drawable/ic_back"
+                    android:text="back to Todo"
                     android:textColor="#ffff"
                     android:textSize="10sp"
                     android:textStyle="normal">

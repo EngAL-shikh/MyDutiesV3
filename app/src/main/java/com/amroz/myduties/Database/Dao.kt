@@ -11,17 +11,12 @@ interface  Dao{
  @Insert
  fun addTask(tasks: Tasks)
 
- //get tasks in to DO
- @Query("SELECT * FROM Tasks where level=1 ORDER BY id DESC ")
- fun getTask():LiveData<List<Tasks>>
 
- //get the tasks in  Inprogress
- @Query("SELECT * FROM Tasks where level=2 ORDER BY id DESC ")
- fun getTaskInProgress():LiveData<List<Tasks>>
 
- //get the tasks in  Done
- @Query("SELECT * FROM Tasks where level=3  ORDER BY id DESC")
- fun getTaskDone():LiveData<List<Tasks>>
+ //get tasks
+ @Query("SELECT * FROM Tasks where level=:level ORDER BY id DESC ")
+ fun getTask(level: Int):LiveData<List<Tasks>>
+
 
  @Update
  fun updateTask(tasks: Tasks)
@@ -30,8 +25,7 @@ interface  Dao{
  @Query("UPDATE Tasks SET level= :level where id= :id ")
  fun updateTaskToInprogress(level: Int,id:Int )
 
- @Delete
- fun deleteTask(tasks: Tasks)
+
 
 
 }
