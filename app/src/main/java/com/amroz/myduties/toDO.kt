@@ -34,7 +34,7 @@ class toDO : Fragment(),DialogAdd.Callbacks {
 
     val sdf = SimpleDateFormat("EEE, MMM d, ''yy")
     val currentDate = sdf.format(Date())
-    lateinit var add: Button
+    lateinit var add: FloatingActionButton
     lateinit var toprogress: Button
     private lateinit var toDoRecyclerView: RecyclerView
     private var adapter: TaskAdapter? = TaskAdapter(emptyList())
@@ -59,7 +59,7 @@ class toDO : Fragment(),DialogAdd.Callbacks {
     ): View? {
 
         var view =inflater.inflate(R.layout.fragment_to_do, container, false)
-        add=view.findViewById(R.id.adding)
+        add=view.findViewById(R.id.add)
 
 
 
@@ -147,7 +147,7 @@ class toDO : Fragment(),DialogAdd.Callbacks {
         val card: CardView = itemView.findViewById(R.id.card)
 
 
-
+//
 
 
 
@@ -193,7 +193,7 @@ class toDO : Fragment(),DialogAdd.Callbacks {
             // controling the tow button
 
             if (type=="todo"){
-               adding.visibility=View.VISIBLE
+               add.visibility=View.VISIBLE
                 back.visibility=View.GONE
             }else if (type=="done"){
                 next.visibility=View.GONE
